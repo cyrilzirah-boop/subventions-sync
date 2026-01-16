@@ -1,9 +1,9 @@
 name: Sync aides automatiquement
 
 on:
-  schedule:
-    - cron: '0 3 * * *' # tous les jours à 03:00
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
 
 jobs:
   sync:
@@ -11,10 +11,9 @@ jobs:
     steps:
       - name: Appeler la fonction Supabase
         run: |
-          curl -X POST "$SYNC_AIDES_URL" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Content-Type: application/json"
-        env:
-          SYNC_AIDES_URL: ${{ secrets.SYNC_AIDES_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          curl -L -X POST "${{ secrets.SYNC_AIDES_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json" \
+            --data '{}'
+
