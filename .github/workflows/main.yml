@@ -8,11 +8,15 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    steps:
-      - name: Appeler la fonction Supabase
-        run: |
-          curl -L -X POST "${{ secrets.SYNC_AIDES_URL }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Content-Type: application/json" \
-            --data '{}'
+   steps:
+  - name: Appeler la fonction Supabase
+    env:
+      SYNC_AIDES_URL: ${{ secrets.SYNC_AIDES_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+    run: |
+      echo "Calling function…"
+      curl -L -X POST "$SYNC_AIDES_URL" \
+        -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+        -H "apikey: $SUPABASE_ANON_KEY" \
+        -H "Content-Type: application/json" \
+        --data '{}'
